@@ -131,22 +131,42 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
         if (closed || close) {
             g2.drawImage(openShop, (int) game.getDimensions().getWidth() / 2 - openShop.getWidth() / 2, (int) openShopY, null);
         }
-        if (towers.isEmpty()) return;
-        for (TowerPrototype t : towers) {
-            g2.drawImage(t.getImg(), t.getShopX(), (int) shopY + 210, null);
+
+        Graphics2D gClip = (Graphics2D) g2.create();
+        try {
+            Rectangle clipRect = new Rectangle2D.Double(shopBounds.getX() + 50,
+                    shopBounds.getY(), shopBounds.getWidth() - 100, shopBounds.getHeight()).getBounds();
+            gClip.setClip(clipRect);
+
+            if (!towers.isEmpty()) {
+                for (TowerPrototype t : towers) {
+                    gClip.drawImage(t.getImg(), t.getShopX(), (int) shopY + 210, null);
+                }
+            }
+
+            gClip.setFont(fontName);
+            gClip.setColor(Color.WHITE);
+            gClip.drawString(towerName, (int) shopBounds.getX() + 53, (int) shopY + 97);
+
+            gClip.setFont(fontInfo);
+            String[] lines = towerInfo.split("\n");
+            for (int i = 0; i < lines.length; i++) {
+                String line = lines[i].trim();
+                gClip.drawString(line, (int) shopBounds.getX() + 53, (int) shopY + 142 + i * 28);
+            }
+        } finally {
+            gClip.dispose();
         }
-        g2.setFont(fontName);
-        g2.setColor(Color.WHITE);
-        g2.drawString(towerName, (int) shopBounds.getX() + 53, (int) shopY + 97);
-        g2.setFont(fontInfo);
-        String[] lines = towerInfo.split("\n");
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i].trim();
-            g2.drawString(line, (int) shopBounds.getX() + 53, (int) shopY + 142 + i * 28);
-        }
+
         if (prototype != null) {
-            g2.drawImage(prototype.getImg(), mouseX - prototype.getImg().getWidth() / 2, mouseY - prototype.getImg().getHeight() / 2, null);
-            g2.drawOval(mouseX - prototype.getRange() / 2, mouseY - prototype.getRange() / 2, prototype.getRange(), prototype.getRange());
+            g2.drawImage(prototype.getImg(),
+                    mouseX - prototype.getImg().getWidth() / 2,
+                    mouseY - prototype.getImg().getHeight() / 2,
+                    null);
+            g2.drawOval(mouseX - prototype.getRange() / 2,
+                    mouseY - prototype.getRange() / 2,
+                    prototype.getRange(),
+                    prototype.getRange());
         }
     }
 
