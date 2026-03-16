@@ -1,0 +1,96 @@
+{
+  "waves": [
+    {
+      "groups": [
+        {
+          "enemyType": "Spork",
+          "count": 5,
+          "interval": 80
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Spork",
+          "count": 10,
+          "interval": 70
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 1,
+          "interval": 0
+        },
+        {
+          "enemyType": "Spork",
+          "count": 5,
+          "interval": 60
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 5,
+          "interval": 60
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 4,
+          "interval": 60
+        },
+        {
+          "enemyType": "Spork",
+          "count": 15,
+          "interval": 40
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 12,
+          "interval": 50
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 8,
+          "interval": 60
+        },
+        {
+          "enemyType": "Spork",
+          "count": 20,
+          "interval": 30
+        }
+      ]
+    },
+    {
+      "groups": [
+        {
+          "enemyType": "Grunt",
+          "count": 15,
+          "interval": 40
+        },
+        {
+          "enemyType": "Spork",
+          "count": 25,
+          "interval": 40
+        }
+      ]
+    }
+  ]
+}
