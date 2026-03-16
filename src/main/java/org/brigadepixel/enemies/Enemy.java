@@ -1,6 +1,5 @@
 package org.brigadepixel.enemies;
 
-import org.brigadepixel.core.Game;
 import org.brigadepixel.core.Path;
 
 import java.awt.*;
