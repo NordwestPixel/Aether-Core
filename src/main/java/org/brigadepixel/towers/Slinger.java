@@ -18,8 +18,8 @@ public class Slinger extends Tower{
     private static BufferedImage img = null;
     private static final int cost = 100;
     private static final int damage = 15;
-    private static final int range = 400;
-    private static final double attSpeed = 2;
+    private static final int range = 360;
+    private static final double attSpeed = 1.5;
     private static final int maxTargets = 1;
 
     private static Game game;

@@ -18,7 +18,7 @@ public class Ballista extends Tower{
     private static BufferedImage img = null;
     private static final int cost = 200;
     private static final int damage = 60;
-    private static final int range = 600;
+    private static final int range = 500;
     private static final double attSpeed = 0.5;
     private static final int maxTargets = 1;
 

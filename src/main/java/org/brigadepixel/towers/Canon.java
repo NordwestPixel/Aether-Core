@@ -18,7 +18,7 @@ public class Canon extends Tower{
 
     private static BufferedImage img = null;
     private static final int cost = 150;
-    private static final int damage = 5;
+    private static final int damage = 4;
     private static final int range = 300;
     private static final double attSpeed = 8;
     private static final int maxTargets = 1;

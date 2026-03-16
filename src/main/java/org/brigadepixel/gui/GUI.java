@@ -163,6 +163,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
                     mouseX - prototype.getImg().getWidth() / 2,
                     mouseY - prototype.getImg().getHeight() / 2,
                     null);
+            g2.setColor(Color.WHITE);
             g2.drawOval(mouseX - prototype.getRange() / 2,
                     mouseY - prototype.getRange() / 2,
                     prototype.getRange(),

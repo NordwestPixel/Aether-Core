@@ -20,9 +20,9 @@ public class WaveController {
     private final Game game;
 
     private final List<Enemy> enemies = new ArrayList<>();
-    private boolean isEmpty = true;
 
     private int wave = 0;
+    private boolean waveOver = true;
     private LevelConfig levelConfig;
 
     private Queue<SpawnGroup> currentWaveQueue;
@@ -39,9 +39,7 @@ public class WaveController {
     }
 
     public void update(double delta) {
-        if (enemies.isEmpty() && !isEmpty) {
-            System.out.println("empty");
-            isEmpty = true;
+        if (enemies.isEmpty() && waveOver) {
             game.getGui().setShopOpen(true);
             return;
         }
@@ -62,8 +60,6 @@ public class WaveController {
             Enemy newEnemy = currentGroup.createEnemy();
             enemies.add(newEnemy);
 
-            isEmpty = false;
-
             enemiesSpawnedInGroup++;
 
             if (enemiesSpawnedInGroup >= targetEnemyCount) {
@@ -74,7 +70,9 @@ public class WaveController {
 
     public boolean startNextWave() {
         if (!enemies.isEmpty()) return false;
+
         this.wave++;
+        waveOver = false;
 
         if (levelConfig == null) return false;
 
@@ -97,6 +95,7 @@ public class WaveController {
 
     private void loadNextGroup() {
         if (currentWaveQueue == null || currentWaveQueue.isEmpty()) {
+            waveOver = true;
             currentGroup = null;
             return;
         }
