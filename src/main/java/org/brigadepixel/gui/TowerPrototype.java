@@ -2,6 +2,7 @@ package org.brigadepixel.gui;
 
 import org.brigadepixel.towers.Tower;
 
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.function.BiFunction;

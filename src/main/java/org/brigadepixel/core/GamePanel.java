@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GamePanel extends JPanel {
@@ -35,14 +36,16 @@ public class GamePanel extends JPanel {
 
         //game.getPath().render(g2);
 
-        List<Enemy> e = game.getEnemies();
-        for (int i = e.size()-1; i >= 0; i--) {
-            if (e.get(i).getReachedEnd() || e.get(i) == null) return;
-            e.get(i).render(g2);
+        List<Enemy> enemies = new ArrayList<>(game.getEnemies());
+        for (int i = enemies.size() - 1; i >= 0; i--) {
+            Enemy enemy = enemies.get(i);
+            if (enemy == null) continue;
+            if (enemy.getReachedEnd()) continue;
+            enemy.render(g2);
         }
 
         List<Tower> towers = game.getTowers();
-        for (int i = 0; i < towers.size(); i++) {
+        for (int i = towers.size()-1; i >= 0; i--) {
             if (towers.get(i) == null) return;
             Tower t = towers.get(i);
             t.render(g2);
@@ -50,6 +53,7 @@ public class GamePanel extends JPanel {
         }
 
         game.getPlayer().render(g2);
+        game.getTowerController().render(g2);
         game.getGui().render(g2);
 
         revalidate();

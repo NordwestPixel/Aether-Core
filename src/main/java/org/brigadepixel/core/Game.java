@@ -50,9 +50,13 @@ public class Game implements Runnable {
         window.setLocationRelativeTo(null);
 
         gamePanel.addKeyListener(player);
+
         gamePanel.addMouseListener(gui);
         gamePanel.addMouseMotionListener(gui);
         gamePanel.addMouseWheelListener(gui);
+
+        gamePanel.addMouseListener(towerController);
+        gamePanel.addMouseMotionListener(towerController);
 
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
@@ -125,6 +129,8 @@ public class Game implements Runnable {
     public WaveController getWaveController() {
         return waveController;
     }
+
+    public TowerController getTowerController() { return towerController; }
 
     public static void main(String[] args) {
         Game game = new Game();

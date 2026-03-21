@@ -1,6 +1,12 @@
 package org.brigadepixel.gui;
 
 import org.brigadepixel.core.Game;
+import org.brigadepixel.towers.energy.Crystallizer;
+import org.brigadepixel.towers.energy.Focusing;
+import org.brigadepixel.towers.explosive.Howitzer;
+import org.brigadepixel.towers.kinetic.Canon;
+import org.brigadepixel.towers.kinetic.Slinger;
+import org.brigadepixel.towers.piercing.Ballista;
 import org.brigadepixel.wavesystem.WaveController;
 import org.brigadepixel.towers.*;
 
@@ -44,6 +50,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
 
     private static boolean buyTower = false;
     private static TowerPrototype prototype = null;
+    private static boolean valid = true;
     private static int mouseX, mouseY;
 
     public GUI(Game game, TowerController towerController) {
@@ -75,7 +82,8 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
                 Canon.class,
                 Ballista.class,
                 Crystallizer.class,
-                Howitzer.class
+                Howitzer.class,
+                Focusing.class
         };
 
         for (Class<? extends Tower> cls : TOWER_CLASSES) {
@@ -168,6 +176,12 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
                     mouseY - prototype.getRange() / 2,
                     prototype.getRange(),
                     prototype.getRange());
+            if (valid) {
+                g2.setColor(new Color(0x1A84FF61, true));
+            } else {
+                g2.setColor(new Color(0x1AFF6161, true));
+            }
+            g2.fillRect(0, 0, game.getDimensions().width, game.getDimensions().height);
         }
     }
 
@@ -185,30 +199,34 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
     public void mouseReleased(MouseEvent e) {
         int key = e.getButton();
         if (key == 1 && waveBtn.contains(e.getPoint()) && !close && !closed) {
-            close = waveController.startNextWave();
+            boolean tmp = waveController.startNextWave();
+            closed = !tmp;
+            close = tmp;
         }
         if (key == 1 && closeShop.contains(e.getPoint())) {
+            closed = false;
             close = true;
         }
         if (key == 3 && buyTower) {
             prototype = null;
             buyTower = false;
-            open = true;
             closed = true;
+            open = true;
         }
-        if (key == 1 && buyTower) {
+        if (key == 1 && buyTower && valid) {
             Tower tower = prototype.createAt(mouseX, mouseY);
             towerController.newTower(tower);
             game.getPlayer().setMoney(-prototype.getCost());
-            if (prototype.getCost() >= game.getPlayer().getMoney()) {
+            if (prototype.getCost() > game.getPlayer().getMoney()) {
                 prototype = null;
                 buyTower = false;
+                closed = true;
+                open = true;
             }
-            open = true;
-            closed = true;
         }
         Rectangle2D openShopBounds = new Rectangle2D.Double(game.getDimensions().getWidth() / 2 - (double) openShop.getWidth() / 2, (int) openShopY, openShop.getWidth(), openShop.getHeight());
         if (key == 1 && openShopBounds.contains(e.getPoint())) {
+            closed = true;
             open = true;
         }
         if (key != 1 || buyTower) return;
@@ -217,6 +235,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
             if (bound.contains(e.getPoint()) && game.getPlayer().getMoney() >= t.getCost()) {
                 buyTower = true;
                 prototype = t;
+                closed = false;
                 close = true;
             }
         }
@@ -240,6 +259,20 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
     @Override
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX(); mouseY = e.getY();
+
+        valid = true;
+        if (prototype != null) {
+            BufferedImage img = prototype.getImg();
+            double freeSpace = 50;
+            Rectangle2D bounds = new Rectangle2D.Double(mouseX - (double) img.getWidth() / 2, mouseY - (double) img.getHeight() / 2 + freeSpace,
+                    img.getWidth(), img.getHeight() - freeSpace * 2);
+            for (Tower t : towerController.getTowers()) {
+                if (t.bounds().intersects(bounds)) {
+                    valid = false;
+                }
+            }
+        }
+
         towerName = ""; towerInfo = "";
         if (!shopBounds.contains(e.getPoint())) return;
         for (TowerPrototype t : towers) {
@@ -250,6 +283,7 @@ public class GUI implements MouseListener, MouseMotionListener, MouseWheelListen
             }
         }
     }
+
     public void setShopOpen(boolean b) {
         open = b;
     }

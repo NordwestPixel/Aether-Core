@@ -1,8 +1,10 @@
-package org.brigadepixel.towers;
+package org.brigadepixel.towers.piercing;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
 import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.Tower;
+import org.brigadepixel.towers.TowerRegistry;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,49 +13,48 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class Canon extends Tower{
+public class Ballista extends Tower {
 
     private static BufferedImage img = null;
-    private static final int cost = 150;
-    private static final int damage = 4;
-    private static final int range = 300;
-    private static final double attSpeed = 8;
+    private static final int cost = 200;
+    private static final int damage = 60;
+    private static final int range = 500;
+    private static final double attSpeed = 0.5;
     private static final int maxTargets = 1;
 
     private static Game game;
     private List<Enemy> targets = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
 
-    private final List<Projectile> projectiles = new ArrayList<>();
+    private List<Projectile> projectiles = new ArrayList<>();
     private double proTimer = 0;
     private static final double proInterval = 1;
 
     static {
         try {
-            img = ImageIO.read(new File("src/main/java/org/brigadepixel/data/img/towers/canon.png"));
+            img = ImageIO.read(new File("src/main/java/org/brigadepixel/data/img/towers/ballista.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "canon",
-                "Gatling Canon",
+                "ballista",
+                "Ballista",
                 img,
                 cost,
                 damage,
                 range,
                 attSpeed,
                 maxTargets,
-                Canon::new
+                Ballista::new
         );
         TowerRegistry.register(prototype);
     }
 
-    public Canon(int x, int y) {
+    public Ballista(int x, int y) {
         super(x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
@@ -78,18 +79,8 @@ public class Canon extends Tower{
                 if (p.getShape().intersects(e.getShape())) {
                     projectiles.remove(p);
                     e.setHealth(damage);
-                    if (e.isDead()) {
-                        game.getPlayer().setMoney(e.getBounty());
-                        targets.remove(e);
-                        enemies.remove(e);
-                    }
                     break;
                 }
-            }
-
-            Point pos = p.getPos();
-            if (pos.x < 0 || pos.x > 1920 || pos.y < 0 || pos.y > 1080) {
-                projectiles.remove(p);
             }
         }
     }
@@ -97,8 +88,8 @@ public class Canon extends Tower{
     @Override
     public void attack() {
         targets = getTargets();
-        for (Iterator<Enemy> itE = targets.iterator(); itE.hasNext();) {
-            Enemy target = itE.next();
+        for (int i = 0; i < targets.size(); i++) {
+            Enemy target = targets.get(i);
             projectiles.add(new Projectile(target, getPos().x, getPos().y));
         }
     }
@@ -125,7 +116,7 @@ public class Canon extends Tower{
         private double x, y;
         private final double velX, velY;
         private Ellipse2D shape;
-        private static final double speed = 25;
+        private static final double speed = 15;
         private static final Color proColor = new Color(0x7D628F);
 
         public Projectile(Enemy target, int startX, int startY) {
@@ -162,10 +153,6 @@ public class Canon extends Tower{
 
         public Color getProColor() {
             return proColor;
-        }
-
-        public Point getPos() {
-            return new Point((int) x, (int) y);
         }
     }
 }

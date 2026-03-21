@@ -39,7 +39,7 @@ public class WaveController {
     }
 
     public void update(double delta) {
-        if (enemies.isEmpty() && waveOver) {
+        if (enemies.isEmpty() && waveOver && wave > 0) {
             game.getGui().setShopOpen(true);
             return;
         }

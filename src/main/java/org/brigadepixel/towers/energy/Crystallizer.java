@@ -1,6 +1,8 @@
-package org.brigadepixel.towers;
+package org.brigadepixel.towers.energy;
 
 import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.Tower;
+import org.brigadepixel.towers.TowerRegistry;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -8,38 +10,38 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Howitzer extends Tower{
+public class Crystallizer extends Tower {
 
     private static BufferedImage img = null;
-    private static final int cost = 220;
-    private static final int damage = 60;
-    private static final int range = 600;
-    private static final double attSpeed = 0.3;
-    private static final int maxTargets = 9;
+    private static final int cost = 150;
+    private static final int damage = 12;
+    private static final int range = 320;
+    private static final double attSpeed = 2.5;
+    private static final int maxTargets = 1;
 
     static {
         try {
-            img = ImageIO.read(new File("src/main/java/org/brigadepixel/data/img/towers/howitzer.png"));
+            img = ImageIO.read(new File("src/main/java/org/brigadepixel/data/img/towers/crystallizer.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "howitzer",
-                "Howitzer",
+                "crystallizer",
+                "Crystallizer Spire",
                 img,
                 cost,
                 damage,
                 range,
                 attSpeed,
                 maxTargets,
-                Howitzer::new
+                Crystallizer::new
         );
         TowerRegistry.register(prototype);
     }
 
-    public Howitzer(int x, int y) {
+    public Crystallizer(int x, int y) {
         super(x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 

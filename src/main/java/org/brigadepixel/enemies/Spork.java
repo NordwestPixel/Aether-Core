@@ -10,7 +10,7 @@ public class Spork extends Enemy {
     private static BufferedImage sprite;
     private static BufferedImage spriteDmgOne;
     private static BufferedImage spriteDmgTwo;
-    private static int health = 30;
+    private static final int health = 30;
     private static final int damage = 1;
     private static final int speed = 2;
     private static final int bounty = 5;

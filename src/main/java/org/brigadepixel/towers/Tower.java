@@ -5,6 +5,7 @@ import org.brigadepixel.enemies.Enemy;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public abstract class Tower {
     private boolean attacking;
     private final List<Enemy> targets = new ArrayList<>();
 
+    private boolean selected = false;
+
     public Tower (int x, int y, BufferedImage img, int cost, int damage, int range, double attSpeed, int maxTargets) {
         this.x = x; this.y = y;
         this.img = img;
@@ -41,7 +44,8 @@ public abstract class Tower {
 
     public void render(Graphics2D g2) {
         g2.drawImage(img,x - img.getWidth() / 2,y - img.getHeight() / 2,null);
-        g2.setColor(Color.white);
+        if (!selected) return;
+        g2.setColor(new Color(0xBFFFFFFF, true));
         g2.draw(range);
     }
 
@@ -91,6 +95,10 @@ public abstract class Tower {
         Tower.game = game;
     }
 
+    public void setSelected(boolean b) {
+        selected = b;
+    }
+
     protected static Game getGame() {
         return game;
     }
@@ -101,6 +109,14 @@ public abstract class Tower {
 
     protected List<Enemy> getTargets() {
         return targets;
+    }
+
+    public Rectangle2D bounds() {
+        return new Rectangle2D.Double(x - (double) img.getWidth() / 2, y - (double) img.getHeight() / 2, img.getWidth(), img.getHeight());
+    }
+
+    public BufferedImage getImg() {
+        return img;
     }
 
     public abstract void updateProjectile(double delta);
