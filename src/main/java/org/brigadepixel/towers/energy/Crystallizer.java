@@ -1,6 +1,6 @@
 package org.brigadepixel.towers.energy;
 
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class Crystallizer extends Tower {
 
+    private static final String id = "crystallizer";
+    private static final String displayName = "Crystallizer Spire";
     private static BufferedImage img = null;
     private static final int cost = 150;
     private static final int damage = 12;
@@ -28,8 +30,8 @@ public class Crystallizer extends Tower {
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "crystallizer",
-                "Crystallizer Spire",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -42,7 +44,7 @@ public class Crystallizer extends Tower {
     }
 
     public Crystallizer(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override

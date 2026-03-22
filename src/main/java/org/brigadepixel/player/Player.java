@@ -18,7 +18,7 @@ public class Player implements KeyListener {
     private int moveW, moveS, moveA, moveD;
     private int speed = 3;
     private Game game;
-    private int money = 100;
+    private int money = 1000;
 
     public Player(int x, int y, Game game) {
         this.x = x; this.y = y;

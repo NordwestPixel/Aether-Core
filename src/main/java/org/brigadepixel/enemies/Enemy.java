@@ -24,6 +24,7 @@ public abstract class Enemy {
 
     private int segmentIndex;
     private boolean reachedEnd;
+    private int stepCounter = 0;
 
     public Enemy(int health, int damage, int speed, BufferedImage sprite, BufferedImage spriteDmgOne, BufferedImage spriteDmgTwo, int bounty) {
         this.x = 241 - sprite.getWidth() / 2; this.y = 283 - sprite.getHeight() / 2;
@@ -44,6 +45,7 @@ public abstract class Enemy {
 
         int seg = Math.max(0, segmentIndex);
         double remaining = speed;
+        stepCounter += speed;
 
         // If we already finished the path, mark and return
         if (seg >= path.length) {
@@ -162,5 +164,13 @@ public abstract class Enemy {
 
     public int getBounty() {
         return bounty;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public int getPathPos() {
+        return stepCounter;
     }
 }

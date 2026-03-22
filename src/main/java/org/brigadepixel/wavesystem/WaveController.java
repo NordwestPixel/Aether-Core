@@ -33,6 +33,8 @@ public class WaveController {
     private double currentSpawnInterval = 0;
     private double spawnTimer = 0;
 
+    private String sortMec = "";
+
     public WaveController(Game game) {
         this.game = game;
         loadJsonConfig("src/main/java/org/brigadepixel/wavesystem/waves.json");
@@ -59,12 +61,24 @@ public class WaveController {
 
             Enemy newEnemy = currentGroup.createEnemy();
             enemies.add(newEnemy);
+            sort();
 
             enemiesSpawnedInGroup++;
 
             if (enemiesSpawnedInGroup >= targetEnemyCount) {
                 loadNextGroup();
             }
+        }
+    }
+
+    public void sort() {
+        switch (sortMec) {
+            case "health": enemies.sort((a, b) ->
+                    Double.compare(b.getMaxHealth(), a.getMaxHealth())
+            );
+            default: enemies.sort((a, b) ->
+                    Double.compare(b.getPathPos(), a.getPathPos())
+            );
         }
     }
 

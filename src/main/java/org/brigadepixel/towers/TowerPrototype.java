@@ -1,8 +1,5 @@
-package org.brigadepixel.gui;
+package org.brigadepixel.towers;
 
-import org.brigadepixel.towers.Tower;
-
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 import java.util.function.BiFunction;
@@ -10,7 +7,7 @@ import java.util.function.BiFunction;
 public final class TowerPrototype {
     private final String id;
     private final String displayName;
-    private final int cost;
+    private int cost;
     private final int damage;
     private final int range;
     private final double attSpeed;
@@ -50,6 +47,7 @@ public final class TowerPrototype {
     public BufferedImage getImg() { return img; }
     public int getShopX() { return shopX; }
 
+    public void setCost(double delta) { cost = (int) (cost * delta); }
     public void setShopX(int x) {
         shopX = x;
     }

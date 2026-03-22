@@ -2,7 +2,7 @@ package org.brigadepixel.towers.piercing;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Ballista extends Tower {
 
+    private static final String id = "ballista";
+    private static final String displayName = "Ballista";
     private static BufferedImage img = null;
     private static final int cost = 200;
     private static final int damage = 60;
@@ -41,8 +43,8 @@ public class Ballista extends Tower {
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "ballista",
-                "Ballista",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -55,7 +57,7 @@ public class Ballista extends Tower {
     }
 
     public Ballista(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class Ballista extends Tower {
                 Enemy e = enemies.get(a);
                 if (p.getShape().intersects(e.getShape())) {
                     projectiles.remove(p);
-                    e.setHealth(damage);
+                    applyDamage(e, damage);
                     break;
                 }
             }

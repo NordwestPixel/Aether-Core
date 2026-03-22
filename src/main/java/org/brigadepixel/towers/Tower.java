@@ -2,6 +2,7 @@ package org.brigadepixel.towers;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
+import org.brigadepixel.util.NumberFormatUtil;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -16,6 +17,7 @@ public abstract class Tower {
 
     private final int id;
     private static int idCounter = 0;
+    private final String name;
 
     private int x, y;
     private final BufferedImage img;
@@ -28,10 +30,12 @@ public abstract class Tower {
     private double attDelta = 0;
     private boolean attacking;
     private final List<Enemy> targets = new ArrayList<>();
+    private int totalDmg = 0;
 
     private boolean selected = false;
 
-    public Tower (int x, int y, BufferedImage img, int cost, int damage, int range, double attSpeed, int maxTargets) {
+    public Tower (String name, int x, int y, BufferedImage img, int cost, int damage, int range, double attSpeed, int maxTargets) {
+        this.name = name;
         this.x = x; this.y = y;
         this.img = img;
         this.cost = cost;
@@ -91,10 +95,14 @@ public abstract class Tower {
         }
     }
 
+    protected void applyDamage(Enemy e, int dmg) {
+        e.setHealth(dmg);
+        totalDmg += dmg;
+    }
+
     public static void setGame(Game game) {
         Tower.game = game;
     }
-
     public void setSelected(boolean b) {
         selected = b;
     }
@@ -102,21 +110,30 @@ public abstract class Tower {
     protected static Game getGame() {
         return game;
     }
-
     protected Point getPos() {
         return new Point(x,y);
     }
-
     protected List<Enemy> getTargets() {
         return targets;
     }
-
     public Rectangle2D bounds() {
         return new Rectangle2D.Double(x - (double) img.getWidth() / 2, y - (double) img.getHeight() / 2, img.getWidth(), img.getHeight());
     }
-
     public BufferedImage getImg() {
         return img;
+    }
+
+    public String getName() { return name; }
+    public int getTotalDmg() { return totalDmg; }
+    public int getDamage() { return damage; }
+    public double getRange() { return range.getWidth(); }
+    public double getAttSpeed() { return attSpeed; }
+    public int getMaxTargets() { return  maxTargets; }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + "; NAME: " + name + "; TOTAL-DMG: " + totalDmg + "; DMG: " + damage + "; RANGE: " + range.getWidth() + "; ATT-SPEED: " +
+                NumberFormatUtil.round2(attSpeed) + "; MAX-TARGETS: " + maxTargets;
     }
 
     public abstract void updateProjectile(double delta);

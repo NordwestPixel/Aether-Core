@@ -2,7 +2,7 @@ package org.brigadepixel.towers.explosive;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -18,8 +18,9 @@ import java.util.List;
 
 public class Howitzer extends Tower {
 
+    private static final String id = "howitzer";
+    private static final String displayName = "Gatling Canon";
     private static BufferedImage img = null;
-
     private static final int cost = 260;
     private static final int damage = 60;
     private static final int range = 600;
@@ -40,8 +41,8 @@ public class Howitzer extends Tower {
         }
 
         TowerPrototype prototype = new TowerPrototype(
-                "howitzer",
-                "Howitzer",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -54,7 +55,7 @@ public class Howitzer extends Tower {
     }
 
     public Howitzer(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override
@@ -188,7 +189,7 @@ public class Howitzer extends Tower {
                     double scaledDamage = Math.max(0.35, falloff);
 
                     int finalDamage = Math.max(1, (int) Math.round(baseDamage * scaledDamage));
-                    e.setHealth(finalDamage);
+                    applyDamage(e, finalDamage);
                 }
             }
         }

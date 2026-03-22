@@ -2,7 +2,7 @@ package org.brigadepixel.towers.kinetic;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -18,6 +18,8 @@ import java.util.List;
 
 public class Canon extends Tower {
 
+    private static final String id = "canon";
+    private static final String displayName = "Gatling Canon";
     private static BufferedImage img = null;
     private static final int cost = 150;
     private static final int damage = 4;
@@ -42,8 +44,8 @@ public class Canon extends Tower {
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "canon",
-                "Gatling Canon",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -56,7 +58,7 @@ public class Canon extends Tower {
     }
 
     public Canon(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override
@@ -79,12 +81,7 @@ public class Canon extends Tower {
                 Enemy e = enemies.get(a);
                 if (p.getShape().intersects(e.getShape())) {
                     projectiles.remove(p);
-                    e.setHealth(damage);
-                    if (e.isDead()) {
-                        game.getPlayer().setMoney(e.getBounty());
-                        targets.remove(e);
-                        enemies.remove(e);
-                    }
+                    applyDamage(e, damage);
                     break;
                 }
             }

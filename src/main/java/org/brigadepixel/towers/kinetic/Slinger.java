@@ -2,7 +2,7 @@ package org.brigadepixel.towers.kinetic;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Slinger extends Tower {
 
+    private static final String id = "slinger";
+    private static final String displayName = "Slinger Turret";
     private static BufferedImage img = null;
     private static final int cost = 100;
     private static final int damage = 15;
@@ -41,8 +43,8 @@ public class Slinger extends Tower {
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "slinger",
-                "Slinger Turret",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -55,7 +57,7 @@ public class Slinger extends Tower {
     }
 
     public Slinger(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class Slinger extends Tower {
                 Enemy e = enemies.get(a);
                 if (p.getShape().intersects(e.getShape())) {
                     projectiles.remove(p);
-                    e.setHealth(damage);
+                    applyDamage(e, damage);
                     break;
                 }
             }

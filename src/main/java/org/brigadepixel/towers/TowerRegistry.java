@@ -1,7 +1,5 @@
 package org.brigadepixel.towers;
 
-import org.brigadepixel.gui.TowerPrototype;
-
 import java.util.*;
 
 public final class TowerRegistry {

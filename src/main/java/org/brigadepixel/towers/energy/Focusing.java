@@ -2,7 +2,7 @@ package org.brigadepixel.towers.energy;
 
 import org.brigadepixel.core.Game;
 import org.brigadepixel.enemies.Enemy;
-import org.brigadepixel.gui.TowerPrototype;
+import org.brigadepixel.towers.TowerPrototype;
 import org.brigadepixel.towers.Tower;
 import org.brigadepixel.towers.TowerRegistry;
 
@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Focusing extends Tower {
 
+    private static final String id = "focusing";
+    private static final String displayName = "Prismatic Focusing Tower";
     private static BufferedImage img = null;
     private static final int cost = 100;
     private static final int damage = 1;
@@ -37,8 +39,8 @@ public class Focusing extends Tower {
 
         //register
         TowerPrototype prototype = new TowerPrototype(
-                "focusing",
-                "Prismatic Focusing Tower",
+                id,
+                displayName,
                 img,
                 cost,
                 damage,
@@ -51,7 +53,7 @@ public class Focusing extends Tower {
     }
 
     public Focusing(int x, int y) {
-        super(x, y, img, cost, damage, range, attSpeed, maxTargets);
+        super(displayName, x, y, img, cost, damage, range, attSpeed, maxTargets);
     }
 
     @Override
@@ -147,7 +149,7 @@ public class Focusing extends Tower {
                 current = Double.min(current, MAX_DAMAGE);
 
                 thickness = (float) Math.sqrt(current);
-                target.setHealth((int) current);
+                applyDamage(target, (int) current);
             }
         }
 
